@@ -12,7 +12,7 @@
  *   "mcpServers": {
  *     "agentviz": {
  *       "command": "node",
- *       "args": ["REDACTED/mcp/server.js"]
+ *       "args": ["/path/to/agentviz/mcp/server.js"]
  *     }
  *   }
  */

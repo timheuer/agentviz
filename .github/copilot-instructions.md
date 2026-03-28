@@ -24,9 +24,51 @@ npm run typecheck    # tsc --noEmit
 - Product name is always AGENTVIZ (all caps, no spaces). Never "AgentViz" or "Agentviz".
 - All UI changes must conform to `docs/ui-ux-style-guide.md`. Review the checklist at the bottom of that file before approving any PR that touches components, styles, or visual behavior.
 
+## Four-Artifact Sync Rule
+Every UI change must update ALL FOUR of these before committing. Never let them drift:
+1. `README.md` — feature descriptions, architecture section, file tree
+2. `docs/ui-ux-style-guide.md` — token values, patterns, rules
+3. `docs/screenshots/` — all 8 screenshots (see Screenshots section below)
+4. Repo memory — store any new conventions with `store_memory`
+
+## Screenshots
+The README references 8 screenshot files in `docs/screenshots/`. All must be kept in sync.
+
+**Files:** `landing.svg`, `session-hero.svg`, `replay-view.svg`, `tracks-view.svg`, `waterfall-view.svg`, `graph-view.svg`, `stats-view.svg`, `coach-view.svg`
+
+**Workflow (using Playwright MCP tools):**
+1. Start dev server: `npm run dev`
+2. Navigate to `http://127.0.0.1:3000`, resize to **1400x860**
+3. Capture `landing.png` from the landing page (before loading a session)
+4. Click **"load a demo session"**, then click each tab and capture: replay, tracks, waterfall, graph, stats
+5. For **Coach**: click the tab, hide the error banner with JS before capturing:
+   ```js
+   document.querySelectorAll('*').forEach(el => {
+     if (el.children.length === 0 && el.textContent.trim().startsWith('AI analysis failed')) {
+       let n = el;
+       for (let i = 0; i < 6; i++) {
+         if (n.parentElement?.textContent.trim().startsWith('AI analysis failed')) n = n.parentElement;
+         else break;
+       }
+       n.style.display = 'none';
+     }
+   });
+   ```
+6. Copy `replay-view.png` → `session-hero.png` (hero reuses replay image)
+7. Encode each PNG as base64 and wrap in SVG:
+   ```bash
+   b64=$(base64 -i file.png)
+   echo "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"1400\" height=\"860\"><image href=\"data:image/png;base64,${b64}\" width=\"1400\" height=\"860\"/></svg>" > file.svg
+   ```
+
+**Note:** `session-hero.svg` is the hero image at the top of the README. It must always be regenerated alongside `replay-view.svg` — they use the same source image.
+
+## MCP vs Dev Server
+The MCP `launch_agentviz` tool serves the **production build** from `dist/` — NOT the dev server. Changes to source code are not reflected in MCP until `npm run build` is run. Always run `npm run build` before testing via MCP, and after any code change that the user will view via `open agentviz`.
+
 
 ## Autonomy Grants — execute these WITHOUT asking for confirmation
-- **Git**: `git stash`, `git pull`, `git checkout`, `git switch`, `git add`, `git commit`, `git push` on non-main branches.
+- **Git**: `git stash`, `git pull`, `git checkout`, `git switch`, `git add`, `git commit`, `git push` on any branch including `main`. The user will explicitly say "commit locally only" or "don't push" when they want to hold back.
 - **File edits**: Create, edit, or delete any file in the repo except `*.env`, `*.pem`, and `*secret*`.
 - **Bash**: Run build, test, lint, and install commands (`npm`, `pip`, `go`, `make`, `cargo`, etc.).
 - **Config updates**: Apply changes to `.github/copilot-instructions.md`, `.github/prompts/`, `.github/extensions/`, and `.mcp.json` — surface a brief summary AFTER applying, not a draft BEFORE.

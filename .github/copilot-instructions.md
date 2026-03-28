@@ -66,18 +66,6 @@ The README references 8 screenshot files in `docs/screenshots/`. All must be kep
 ## MCP vs Dev Server
 The MCP `launch_agentviz` tool serves the **production build** from `dist/` — NOT the dev server. Changes to source code are not reflected in MCP until `npm run build` is run. Always run `npm run build` before testing via MCP, and after any code change that the user will view via `open agentviz`.
 
-
-## Autonomy Grants — execute these WITHOUT asking for confirmation
-- **Git**: `git stash`, `git pull`, `git checkout`, `git switch`, `git add`, `git commit`, `git push` on any branch including `main`. The user will explicitly say "commit locally only" or "don't push" when they want to hold back.
-- **File edits**: Create, edit, or delete any file in the repo except `*.env`, `*.pem`, and `*secret*`.
-- **Bash**: Run build, test, lint, and install commands (`npm`, `pip`, `go`, `make`, `cargo`, etc.).
-- **Config updates**: Apply changes to `.github/copilot-instructions.md`, `.github/prompts/`, `.github/extensions/`, and `.mcp.json` — surface a brief summary AFTER applying, not a draft BEFORE.
-- **Auth switching**: If one auth method or credential fails, automatically try the next available option before asking.
-
-When stuck on a repeating loop (same error 2+ times), pick the most likely fix, apply it, and report what you changed — do NOT wait for the human to say "switch auth and try".
-
-
-
 ## Document Authoring Autonomy
 
 When working on long-form documents (markdown specs, design docs, research reports), you are authorized to make the following decisions WITHOUT asking for confirmation:

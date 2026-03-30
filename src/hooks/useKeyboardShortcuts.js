@@ -34,7 +34,7 @@ export function handleKeyboardShortcut(e, options) {
     return true;
   }
 
-  if (!options.hasSession || options.showPalette || isEditableTarget(e.target)) return false;
+  if (!options.hasSession || options.showPalette || options.showShortcuts || isEditableTarget(e.target)) return false;
 
   if (e.code === "Space") {
     e.preventDefault();

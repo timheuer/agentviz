@@ -20,9 +20,9 @@ import AppHeader from "./components/app/AppHeader.jsx";
 import AppLandingState from "./components/app/AppLandingState.jsx";
 import AppLoadingState from "./components/app/AppLoadingState.jsx";
 import CompareLandingState from "./components/app/CompareLandingState.jsx";
-import CompareShell from "./components/app/CompareShell.jsx";
+var CompareShell = React.lazy(function () { return import("./components/app/CompareShell.jsx"); });
 import { APP_VIEWS } from "./components/app/constants.js";
-import DebriefView from "./components/DebriefView.jsx";
+var DebriefView = React.lazy(function () { return import("./components/DebriefView.jsx"); });
 import QADrawer from "./components/QADrawer.jsx";
 import useFeatureFlag from "./hooks/useFeatureFlag.js";
 import { buildAutonomyMetrics, buildAutonomySummary } from "./lib/autonomyMetrics.js";
@@ -88,14 +88,16 @@ function renderActiveView(activeView, props) {
 
   if (activeView === "coach") {
     return (
-      <DebriefView
-        file={props.session.file}
-        summary={props.debrief.summary}
-        recommendationState={props.recommendationState}
-        onSetRecommendationState={props.onSetRecommendationState}
-        metadata={props.session.metadata}
-        rawSession={{ events: props.session.events, turns: props.session.turns, metadata: props.session.metadata, autonomyMetrics: props.autonomyMetrics }}
-      />
+      <React.Suspense fallback={<div style={{ padding: 40, color: theme.text.dim, textAlign: "center" }}>Loading coach...</div>}>
+        <DebriefView
+          file={props.session.file}
+          summary={props.debrief.summary}
+          recommendationState={props.recommendationState}
+          onSetRecommendationState={props.onSetRecommendationState}
+          metadata={props.session.metadata}
+          rawSession={{ events: props.session.events, turns: props.session.turns, metadata: props.session.metadata, autonomyMetrics: props.autonomyMetrics }}
+        />
+      </React.Suspense>
     );
   }
 
@@ -340,16 +342,18 @@ export default function App() {
 
   if (compareReady) {
     return (
-      <CompareShell
-        sessionA={{ events: session.events, metadata: session.metadata, total: session.total, file: session.file }}
-        sessionB={{ events: sessionB.events, metadata: sessionB.metadata, total: sessionB.total, file: sessionB.file }}
-        onExitCompare={exitCompare}
-        onExportComparison={handleExportComparison}
-        exportState={compareExport.state}
-        exportError={compareExport.error}
-        onOpenSessionA={function () { openCompareSessionInCoach(session); }}
-        onOpenSessionB={function () { openCompareSessionInCoach(sessionB); }}
-      />
+      <React.Suspense fallback={<AppLoadingState />}>
+        <CompareShell
+          sessionA={{ events: session.events, metadata: session.metadata, total: session.total, file: session.file }}
+          sessionB={{ events: sessionB.events, metadata: sessionB.metadata, total: sessionB.total, file: sessionB.file }}
+          onExitCompare={exitCompare}
+          onExportComparison={handleExportComparison}
+          exportState={compareExport.state}
+          exportError={compareExport.error}
+          onOpenSessionA={function () { openCompareSessionInCoach(session); }}
+          onOpenSessionB={function () { openCompareSessionInCoach(sessionB); }}
+        />
+      </React.Suspense>
     );
   }
 
@@ -423,6 +427,7 @@ function AppSessionView({
     hasSession: Boolean(session.events),
     showHero: session.showHero,
     showPalette: showPalette || showQA,
+    showShortcuts: showShortcuts,
     time: pb.playback.time,
     onTogglePalette: function () { setShowPalette(function (prev) { return !prev; }); },
     onDismissHero: session.dismissHero,

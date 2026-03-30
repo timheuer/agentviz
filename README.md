@@ -312,7 +312,9 @@ More formats planned: LangSmith traces, OpenTelemetry spans.
 
 ```
 src/
-  App.jsx                # Main orchestrator: file loading, playback, view routing
+  App.jsx                # Routing shell: file loading, session switching, compare mode
+  contexts/
+    PlaybackContext.jsx  # Playback, search, track filtering, and derived state provider
   hooks/
     usePlayback.js       # Play/pause, speed, seek state machine
     useSearch.js         # Debounced full-text search with match highlighting
@@ -351,11 +353,11 @@ src/
     playbackUtils.js     # Playback state helpers
   components/
     InboxView.jsx        # Session inbox with auto-discovery, sorting, and review priority
-    DebriefView.jsx      # AI Coach panel with cached analysis and one-click apply
+    DebriefView.jsx      # AI Coach panel with cached analysis (lazy-loaded)
     ReplayView.jsx       # Windowed event stream + inspector sidebar
     TracksView.jsx       # DAW-style multi-track timeline
     WaterfallView.jsx    # Tool execution waterfall with nesting and inspector
-    GraphView.jsx        # Interactive turn graph with expandable tool-call nodes
+    GraphView.jsx        # Interactive turn graph with expandable tool-call nodes (lazy-loaded)
     StatsView.jsx        # Aggregate metrics and tool ranking
     CompareView.jsx      # Side-by-side session comparison (Scorecard + Tools tabs)
     CommandPalette.jsx   # Cmd+K fuzzy search overlay
@@ -371,7 +373,7 @@ src/
     FileUploader.jsx     # Drag-and-drop file input with error handling
     ErrorBoundary.jsx    # React error boundary with resetKey for recovery
     Icon.jsx             # Lucide icon wrapper; all icons must be imported AND added to ICON_MAP
-    app/                 # Shell components: AppHeader, AppLandingState, AppLoadingState
+    app/                 # Shell: AppHeader, AppLandingState, AppLoadingState, CompareShell (lazy-loaded)
     ui/                  # Shared primitives: BrandWordmark, ShellFrame, ToolbarButton
     waterfall/           # Waterfall sub-components: WaterfallChart, WaterfallRow, TimeAxis
 bin/

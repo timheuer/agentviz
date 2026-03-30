@@ -53,20 +53,24 @@ export default function RecentSessionsPicker({ entries, onOpen, onClose, current
     function handleKey(e) {
       if (e.key === "ArrowDown") {
         e.preventDefault();
+        e.stopImmediatePropagation();
         setActiveIndex(function (i) { return Math.min(i + 1, sorted.length - 1); });
       } else if (e.key === "ArrowUp") {
         e.preventDefault();
+        e.stopImmediatePropagation();
         setActiveIndex(function (i) { return Math.max(i - 1, 0); });
       } else if (e.key === "Enter") {
         e.preventDefault();
+        e.stopImmediatePropagation();
         if (sorted[activeIndex]) onOpen(sorted[activeIndex]);
       } else if (e.key === "Escape") {
         e.preventDefault();
+        e.stopImmediatePropagation();
         onClose();
       }
     }
-    window.addEventListener("keydown", handleKey);
-    return function () { window.removeEventListener("keydown", handleKey); };
+    window.addEventListener("keydown", handleKey, true);
+    return function () { window.removeEventListener("keydown", handleKey, true); };
   }, [activeIndex, sorted, onOpen, onClose]);
 
   useEffect(function () {

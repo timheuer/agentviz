@@ -11,6 +11,9 @@ export function isEditableTarget(target) {
 export function handleKeyboardShortcut(e, options) {
   if (!options) return false;
 
+  // Block everything when shortcuts modal is open (only Escape handled by modal itself)
+  if (options.showShortcuts) return false;
+
   if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key && e.key.toLowerCase() === "k") {
     e.preventDefault();
     if (options.onToggleQA) options.onToggleQA();
@@ -34,7 +37,7 @@ export function handleKeyboardShortcut(e, options) {
     return true;
   }
 
-  if (!options.hasSession || options.showPalette || options.showShortcuts || isEditableTarget(e.target)) return false;
+  if (!options.hasSession || options.showPalette || isEditableTarget(e.target)) return false;
 
   if (e.code === "Space") {
     e.preventDefault();

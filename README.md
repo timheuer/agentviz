@@ -268,6 +268,28 @@ AI-powered session coaching available directly from any session. The coach reads
 | **Session Q&A** | Slide-over drawer (`Cmd+Shift+K`) with instant answers for common queries and Copilot SDK model fallback for open-ended questions. |
 | **Autonomy Metrics** | Measures human response time, idle gaps, and intervention frequency per session. |
 
+### Session Q&A
+
+Open the drawer with `Cmd+Shift+K` (or via the command palette). Questions are routed through a two-tier system:
+
+1. **Instant answers** -- a local classifier matches 9 common patterns and responds immediately from session data, with no API call:
+
+   | Pattern | Example question |
+   |---------|-----------------|
+   | Tool count | "how many tool calls?" |
+   | Errors | "were there any errors?" |
+   | Duration | "how long did this take?" |
+   | Models | "what model was used?" |
+   | Turns | "how many turns?" |
+   | Longest tool | "which tool took the longest?" |
+   | Cost | "how much did this cost?" |
+   | File edits | "what files were edited?" |
+   | Summary | "summarize this session" |
+
+2. **Model fallback** -- anything the classifier can't match is sent to the Copilot SDK (configurable model, see [Configuration](#configuration)) with full session context for an AI-generated answer.
+
+> **Feature flag:** Session Q&A is experimental. Enable it with `localStorage.setItem('agentviz:flag:qa', 'true')` in the browser console.
+
 ## Keyboard Shortcuts
 
 | Key | Action |

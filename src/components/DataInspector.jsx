@@ -34,7 +34,7 @@ function InspectorButton({ children, onClick, tone }) {
         cursor: "pointer",
         fontSize: theme.fontSize.xs,
         padding: 0,
-        fontFamily: theme.font.ui,
+        fontFamily: theme.font.mono,
       }}
     >
       {children}

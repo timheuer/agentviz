@@ -52,139 +52,191 @@ function ReplayInspector({ selectedEntry, hasExplicitSelection, metadata, toolEn
   return (
     <div style={{
       height: "100%",
-      paddingLeft: 16,
+      overflow: "auto",
+      background: theme.bg.surface,
+      padding: theme.space.lg,
       display: "flex",
       flexDirection: "column",
-      gap: 14,
-      overflowY: "auto",
+      gap: theme.space.lg,
     }}>
       {metadata && (
         <div>
-          <div style={{ fontSize: theme.fontSize.sm, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 2, marginBottom: 8 }}>
+          <div style={{
+            fontSize: theme.fontSize.xs,
+            color: theme.text.dim,
+            textTransform: "uppercase",
+            letterSpacing: 1,
+            marginBottom: theme.space.md,
+          }}>
             Session Info
           </div>
-          <div style={{ fontSize: theme.fontSize.md, color: theme.text.secondary, lineHeight: 2.2 }}>
-            <div>Events: <span style={{ color: theme.text.primary }}>{metadata.totalEvents}</span></div>
-            <div>Turns: <span style={{ color: theme.text.primary }}>{metadata.totalTurns}</span></div>
-            <div>Tools: <span style={{ color: theme.track.tool_call }}>{metadata.totalToolCalls}</span></div>
-            {metadata.errorCount > 0 && (
-              <div>Errors: <span style={{ color: theme.semantic.error }}>{metadata.errorCount}</span></div>
-            )}
-            {metadata.primaryModel && (
-              <div>Model: <span style={{ color: theme.track.context }}>{metadata.primaryModel.split("-").slice(0, 3).join("-")}</span></div>
-            )}
-            {metadata.tokenUsage && (metadata.tokenUsage.inputTokens + metadata.tokenUsage.outputTokens) > 0 && (
-              <div>Tokens: <span style={{ color: theme.accent.primary }}>
-                {(metadata.tokenUsage.inputTokens + metadata.tokenUsage.outputTokens).toLocaleString()}
-              </span></div>
-            )}
-            {metadata.tokenUsage && (metadata.tokenUsage.inputTokens + metadata.tokenUsage.outputTokens) > 0 && (
-              <div>Est. Cost: <span style={{ color: theme.semantic.success }}>
-                {formatCost(estimateCost(metadata.tokenUsage, metadata.primaryModel))}
-              </span></div>
-            )}
-            {metadata.warnings && metadata.warnings.length > 0 && (
-              <div style={{ color: theme.semantic.warning }}>
-                Warnings: {metadata.warnings.length}
-              </div>
-            )}
+          <div style={{ display: "flex", flexDirection: "column", gap: theme.space.sm }}>
+            {[
+              ["Events", metadata.totalEvents, theme.text.primary],
+              ["Turns", metadata.totalTurns, theme.text.primary],
+              ["Tools", metadata.totalToolCalls, theme.track.tool_call],
+              metadata.errorCount > 0 ? ["Errors", metadata.errorCount, theme.semantic.error] : null,
+              metadata.primaryModel ? ["Model", metadata.primaryModel.split("-").slice(0, 3).join("-"), theme.track.context] : null,
+              metadata.tokenUsage && (metadata.tokenUsage.inputTokens + metadata.tokenUsage.outputTokens) > 0
+                ? ["Tokens", (metadata.tokenUsage.inputTokens + metadata.tokenUsage.outputTokens).toLocaleString(), theme.accent.primary] : null,
+              metadata.tokenUsage && (metadata.tokenUsage.inputTokens + metadata.tokenUsage.outputTokens) > 0
+                ? ["Est. Cost", formatCost(estimateCost(metadata.tokenUsage, metadata.primaryModel)), theme.semantic.success] : null,
+              metadata.warnings && metadata.warnings.length > 0 ? ["Warnings", metadata.warnings.length, theme.semantic.warning] : null,
+            ].filter(Boolean).map(function (row) {
+              return (
+                <div key={row[0]} style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  fontSize: theme.fontSize.sm,
+                }}>
+                  <span style={{ color: theme.text.muted }}>{row[0]}</span>
+                  <span style={{ color: row[2] }}>{row[1]}</span>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
 
       <div>
-        <div style={{ fontSize: theme.fontSize.sm, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 2, marginBottom: 8 }}>
+        <div style={{
+          fontSize: theme.fontSize.xs,
+          color: theme.text.dim,
+          textTransform: "uppercase",
+          letterSpacing: 1,
+          marginBottom: theme.space.md,
+        }}>
           Tools Used
         </div>
         {toolEntries.length === 0 && (
-          <div style={{ fontSize: theme.fontSize.base, color: theme.text.ghost }}>No tools visible</div>
+          <div style={{ fontSize: theme.fontSize.sm, color: theme.text.ghost }}>No tools visible</div>
         )}
-        {toolEntries.map(function (pair) {
-          return (
-            <div key={pair[0]} style={{ display: "flex", justifyContent: "space-between", padding: "4px 0" }}>
-              <span style={{ fontSize: theme.fontSize.base, color: theme.track.tool_call, fontFamily: theme.font.mono }}>{pair[0]}</span>
-              <span style={{ fontSize: theme.fontSize.base, color: theme.text.muted }}>{pair[1]}x</span>
-            </div>
-          );
-        })}
+        <div style={{ display: "flex", flexDirection: "column", gap: theme.space.xs }}>
+          {toolEntries.map(function (pair) {
+            return (
+              <div key={pair[0]} style={{ display: "flex", justifyContent: "space-between", fontSize: theme.fontSize.sm }}>
+                <span style={{ color: theme.track.tool_call }}>{pair[0]}</span>
+                <span style={{ color: theme.text.dim }}>{pair[1]}x</span>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       {selected && (
         <div>
-          <div style={{ fontSize: theme.fontSize.sm, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 2, marginBottom: 8 }}>
+          <div style={{
+            fontSize: theme.fontSize.xs,
+            color: theme.text.dim,
+            textTransform: "uppercase",
+            letterSpacing: 1,
+            marginBottom: theme.space.md,
+          }}>
             {hasExplicitSelection ? "Selected Event" : "Current Event"}
           </div>
           <div style={{
-            background: theme.bg.surface,
+            background: theme.bg.raised,
             borderRadius: theme.radius.lg,
-            padding: 10,
-            border: "1px solid " + alpha(selected.isError ? theme.semantic.error : ((TRACK_TYPES[selected.track] || {}).color || theme.text.ghost), 0.2),
+            padding: theme.space.lg,
+            border: "1px solid " + theme.border.default,
           }}>
             {TRACK_TYPES[selected.track] && (
-              <div style={{ fontSize: theme.fontSize.base, color: selected.isError ? theme.semantic.error : TRACK_TYPES[selected.track].color, marginBottom: 4, display: "flex", alignItems: "center", gap: 5 }}>
+              <div style={{
+                fontSize: theme.fontSize.md,
+                color: selected.isError ? theme.semantic.error : TRACK_TYPES[selected.track].color,
+                fontWeight: 600,
+                marginBottom: theme.space.md,
+                display: "flex",
+                alignItems: "center",
+                gap: theme.space.sm,
+              }}>
                 <Icon name={selected.track} size={13} /> {TRACK_TYPES[selected.track].label}
                 {selected.isError && " (ERROR)"}
               </div>
             )}
-            <div style={{ fontSize: theme.fontSize.base, color: theme.text.secondary }}>Agent: {selected.agent}</div>
-            <div style={{ fontSize: theme.fontSize.base, color: theme.text.secondary }}>Time: {selected.t.toFixed(2)}s</div>
-            <div style={{ fontSize: theme.fontSize.base, color: theme.text.secondary }}>Turn: {(selected.turnIndex || 0) + 1}</div>
-            {selected.toolName && (
-              <div style={{ fontSize: theme.fontSize.base, color: theme.track.tool_call, marginTop: 4 }}>Tool: {selected.toolName}</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: theme.space.sm }}>
+              {[
+                ["Agent", selected.agent],
+                ["Time", selected.t.toFixed(2) + "s"],
+                ["Turn", (selected.turnIndex || 0) + 1],
+                selected.toolName ? ["Tool", selected.toolName] : null,
+                selected.model ? ["Model", selected.model] : null,
+              ].filter(Boolean).map(function (pair) {
+                return (
+                  <div key={pair[0]} style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontSize: theme.fontSize.sm,
+                  }}>
+                    <span style={{ color: theme.text.muted }}>{pair[0]}</span>
+                    <span style={{ color: theme.text.primary }}>{pair[1]}</span>
+                  </div>
+                );
+              })}
+            </div>
+
+            {hasDiff && !showRaw && (
+              <div style={{ marginTop: theme.space.lg }}>
+                <div style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginBottom: theme.space.sm,
+                }}>
+                  <div style={{
+                    fontSize: theme.fontSize.xs,
+                    color: theme.text.dim,
+                  }}>
+                    Diff
+                  </div>
+                  <button
+                    type="button"
+                    onClick={function () { setShowRaw(true); }}
+                    style={{
+                      fontSize: theme.fontSize.xs,
+                      color: theme.accent.primary,
+                      cursor: "pointer",
+                      background: "none",
+                      border: "none",
+                      padding: 0,
+                    }}
+                  >
+                    Show Raw
+                  </button>
+                </div>
+                <DiffViewer event={selected} />
+              </div>
             )}
-            {selected.model && (
-              <div style={{ fontSize: theme.fontSize.base, color: theme.track.context, marginTop: 4 }}>Model: {selected.model}</div>
+
+            {selected.raw && (!hasDiff || showRaw) && (
+              <div style={{ marginTop: theme.space.lg }}>
+                {hasDiff && (
+                  <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-end",
+                    marginBottom: theme.space.sm,
+                  }}>
+                    <button
+                      type="button"
+                      onClick={function () { setShowRaw(false); }}
+                      style={{
+                        fontSize: theme.fontSize.xs,
+                        color: theme.accent.primary,
+                        cursor: "pointer",
+                        background: "none",
+                        border: "none",
+                        padding: 0,
+                      }}
+                    >
+                      Show Diff
+                    </button>
+                  </div>
+                )}
+                <DataInspector title="Event Payload" value={selected.raw} maxLines={24} maxChars={20000} />
+              </div>
             )}
           </div>
-        </div>
-      )}
-
-      {selected && hasDiff && !showRaw && (
-        <div>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-            <div style={{ fontSize: theme.fontSize.sm, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 2 }}>
-              Diff
-            </div>
-            <button
-              type="button"
-              onClick={function () { setShowRaw(true); }}
-              style={{
-                fontSize: theme.fontSize.xs,
-                color: theme.accent.primary,
-                cursor: "pointer",
-                background: "none",
-                border: "none",
-                padding: 0,
-              }}
-            >
-              Show Raw
-            </button>
-          </div>
-          <DiffViewer event={selected} />
-        </div>
-      )}
-
-      {selected && selected.raw && (!hasDiff || showRaw) && (
-        <div>
-          {hasDiff && (
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginBottom: 8 }}>
-              <button
-                type="button"
-                onClick={function () { setShowRaw(false); }}
-                style={{
-                  fontSize: theme.fontSize.xs,
-                  color: theme.accent.primary,
-                  cursor: "pointer",
-                  background: "none",
-                  border: "none",
-                  padding: 0,
-                }}
-              >
-                Show Diff
-              </button>
-            </div>
-          )}
-          <DataInspector title="Event Payload" value={selected.raw} maxLines={24} maxChars={20000} />
         </div>
       )}
     </div>
@@ -455,7 +507,7 @@ export default function ReplayView({ currentTime, eventEntries, turnStartMap, se
                       fontSize: theme.fontSize.base,
                       color: isError ? theme.semantic.errorText : theme.text.primary,
                       lineHeight: 1.6,
-                      fontFamily: ev.track === "tool_call" || ev.track === "context" ? theme.font.mono : theme.font.ui,
+                      fontFamily: ev.track === "tool_call" || ev.track === "context" ? theme.font.mono : undefined,
                       whiteSpace: "pre-wrap",
                       wordBreak: "break-word",
                     }}>

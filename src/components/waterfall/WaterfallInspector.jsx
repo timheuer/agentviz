@@ -61,7 +61,7 @@ export default function WaterfallInspector({ selectedItem, stats }) {
             letterSpacing: 1,
             marginBottom: theme.space.md,
           }}>
-            Tool Frequency
+            Tools Used
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: theme.space.xs }}>
             {Object.entries(stats.toolFrequency)

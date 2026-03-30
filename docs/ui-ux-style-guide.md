@@ -188,7 +188,7 @@ and the view-switcher tab buttons in `AppHeader`. Using it elsewhere is a violat
 
 **Section headers** -- uppercase, letter-spaced, dim. Two variants exist:
 ```jsx
-// Standard (ReplayView sidebar)
+// Standard (view headers, page-level labels)
 {
   fontSize: theme.fontSize.sm,
   color: theme.text.dim,
@@ -197,7 +197,7 @@ and the view-switcher tab buttons in `AppHeader`. Using it elsewhere is a violat
   marginBottom: 8,
 }
 
-// Compact (StatsView, WaterfallInspector, InboxView)
+// Compact (inspector panels, StatsView, WaterfallInspector, InboxView)
 {
   fontSize: theme.fontSize.xs,
   color: theme.text.dim,
@@ -245,7 +245,7 @@ and the view-switcher tab buttons in `AppHeader`. Using it elsewhere is a violat
   Everything else -- buttons, dropdowns, labels, metric values, stat numbers, loading screen, coach panel -- must use `theme.font.mono`.
 - Font weight: `400` normal, `500` medium (tool labels), `600` semi-bold (headers, brand), `700` bold (metric values, solo/mute).
 - Never use font weights above 700.
-- `letterSpacing: 2` for uppercase section labels. `letterSpacing: 1` for uppercase badges.
+- `letterSpacing: 2` for page-level uppercase section labels. `letterSpacing: 1` for inspector panel headers and compact labels.
   `letterSpacing: "-0.5px"` only for the brand wordmark.
 - `lineHeight: 1.6` for readable body text. `lineHeight: 1.8` for loose descriptive text. `lineHeight: 2.2` for spaced metadata lists.
 
@@ -542,11 +542,14 @@ are rendered as children -- they are not each independently wrapped in `ShellFra
 
 ### Sidebar Inspector
 
-Found in ReplayView, WaterfallView, GraphView. Spacing varies by view:
-- ReplayView: `paddingLeft: 16px`, `gap: 14px`.
-- WaterfallView: `padding: theme.space.lg` (12px), `gap: theme.space.lg` (12px).
-- GraphView: `padding: 16px`.
-- All use independent vertical scroll (`overflowY: auto`).
+Found in ReplayView, WaterfallView, GraphView, and StatsView. All panels follow a normalized standard:
+- Container: `padding: theme.space.lg` (12px), `gap: theme.space.lg` (12px), `display: "flex"`, `flexDirection: "column"`, `overflowY: "auto"`, `height: "100%"`.
+- Section headers: `fontSize: theme.fontSize.xs` (10px), `color: theme.text.dim`, `textTransform: "uppercase"`, `letterSpacing: 1`, `marginBottom: theme.space.md` (8px).
+- Body/stat rows: `fontSize: theme.fontSize.sm` (11px), label `color: theme.text.muted`, value `color: theme.text.primary`.
+- Selected cards: `background: theme.bg.raised`, `borderRadius: theme.radius.lg`, `padding: theme.space.lg` (12px), `border: 1px solid theme.border.default`.
+- Tool lists: `fontSize: theme.fontSize.sm`, tool name uses track color, count `color: theme.text.muted`.
+- All panels use `ResizablePanel` for user-adjustable width.
+- Tool section heading is always "TOOLS USED" (consistent across Replay, Waterfall, Stats).
 
 ### Grid Layout
 

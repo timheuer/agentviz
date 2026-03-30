@@ -21,7 +21,7 @@ export default function CompareLandingState({ session, sessionB, onLoadSessionA,
 
       <div style={{ display: "flex", gap: 16, alignItems: "flex-start", width: "100%", maxWidth: 900, padding: "0 24px" }}>
         <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
-          <div style={{ fontSize: theme.fontSize.sm, color: theme.accent.primary, fontFamily: theme.font.ui, letterSpacing: 1, textTransform: "uppercase" }}>
+          <div style={{ fontSize: theme.fontSize.sm, color: theme.accent.primary, fontFamily: theme.font.mono, letterSpacing: 1, textTransform: "uppercase" }}>
             Session A
           </div>
           {session.events ? (
@@ -43,11 +43,11 @@ export default function CompareLandingState({ session, sessionB, onLoadSessionA,
         </div>
 
         <div style={{ display: "flex", alignItems: "center", paddingTop: 60, flexShrink: 0 }}>
-          <span style={{ fontSize: theme.fontSize.xl, color: theme.text.ghost, fontFamily: theme.font.ui, fontWeight: 600 }}>vs</span>
+          <span style={{ fontSize: theme.fontSize.xl, color: theme.text.ghost, fontFamily: theme.font.mono, fontWeight: 600 }}>vs</span>
         </div>
 
         <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
-          <div style={{ fontSize: theme.fontSize.sm, color: theme.agent.system, fontFamily: theme.font.ui, letterSpacing: 1, textTransform: "uppercase" }}>
+          <div style={{ fontSize: theme.fontSize.sm, color: theme.agent.system, fontFamily: theme.font.mono, letterSpacing: 1, textTransform: "uppercase" }}>
             Session B
           </div>
           {sessionB.events ? (
@@ -76,7 +76,7 @@ export default function CompareLandingState({ session, sessionB, onLoadSessionA,
           color: theme.text.dim,
           cursor: "pointer",
           fontSize: theme.fontSize.sm,
-          fontFamily: theme.font.ui,
+          fontFamily: theme.font.mono,
           background: "none",
           border: "none",
           padding: 0,

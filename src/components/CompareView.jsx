@@ -100,7 +100,7 @@ function Row({ label, valA, valB, a, b, lowerIsBetter, indent }) {
       <span style={{
         fontSize: theme.fontSize.base,
         color: indent ? theme.text.dim : theme.text.muted,
-        fontFamily: theme.font.ui,
+        fontFamily: theme.font.mono,
         paddingLeft: indent ? 12 : 0,
       }}>
         {label}
@@ -161,7 +161,7 @@ function Scorecard({ mA, mB, fileA, fileB, onOpenSessionA, onOpenSessionB }) {
         }}>
           B: {fileB}
         </span>
-        <span style={{ fontSize: theme.fontSize.xs, color: theme.text.ghost, fontFamily: theme.font.ui }}>
+        <span style={{ fontSize: theme.fontSize.xs, color: theme.text.ghost, fontFamily: theme.font.mono }}>
           A vs B
         </span>
       </div>
@@ -195,7 +195,7 @@ function Scorecard({ mA, mB, fileA, fileB, onOpenSessionA, onOpenSessionB }) {
         padding: "8px 10px",
         borderBottom: "1px solid " + theme.border.subtle,
       }}>
-        <span style={{ fontSize: theme.fontSize.base, color: theme.text.muted, fontFamily: theme.font.ui }}>Model</span>
+        <span style={{ fontSize: theme.fontSize.base, color: theme.text.muted, fontFamily: theme.font.mono }}>Model</span>
         <span style={{ fontSize: theme.fontSize.base, color: theme.text.secondary, fontFamily: theme.font.mono }}>
           {mA.model || "Unknown"}
         </span>
@@ -269,7 +269,7 @@ function ToolsChart({ mA, mB, fileA, fileB }) {
 
   if (rows.length === 0) {
     return (
-      <div style={{ padding: 32, color: theme.text.muted, fontSize: theme.fontSize.base, fontFamily: theme.font.ui }}>
+      <div style={{ padding: 32, color: theme.text.muted, fontSize: theme.fontSize.base, fontFamily: theme.font.mono }}>
         No tool calls found in either session.
       </div>
     );

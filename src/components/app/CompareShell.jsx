@@ -27,14 +27,14 @@ export default function CompareShell({
           maxWidth: 160, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
           {sessionA.file}
         </span>
-        <span style={{ fontSize: theme.fontSize.base, color: theme.text.ghost, fontFamily: theme.font.ui }}>vs</span>
+        <span style={{ fontSize: theme.fontSize.base, color: theme.text.ghost, fontFamily: theme.font.mono }}>vs</span>
         <span style={{ fontSize: theme.fontSize.base, color: theme.agent.system, fontFamily: theme.font.mono,
           maxWidth: 160, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
           {sessionB.file}
         </span>
         <div style={{ marginLeft: "auto", display: "flex", gap: 6, alignItems: "center" }}>
           {exportError && (
-            <span style={{ fontSize: theme.fontSize.xs, color: theme.semantic.error, maxWidth: 240, fontFamily: theme.font.ui }}>
+            <span style={{ fontSize: theme.fontSize.xs, color: theme.semantic.error, maxWidth: 240, fontFamily: theme.font.mono }}>
               {exportError}
             </span>
           )}

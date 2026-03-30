@@ -3,6 +3,7 @@ import Icon from "./Icon.jsx";
 import { estimateCost, formatCost } from "../lib/pricing.js";
 import { formatDurationLong } from "../lib/formatTime.js";
 import ToolbarButton from "./ui/ToolbarButton.jsx";
+import ResizablePanel from "./ResizablePanel.jsx";
 import { buildAutonomySummary } from "../lib/autonomyMetrics.js";
 import { useState } from "react";
 
@@ -14,7 +15,7 @@ function MetricCard({ value, label, tooltip, color }) {
       onMouseEnter={function () { setHovered(true); }}
       onMouseLeave={function () { setHovered(false); }}
     >
-      <div style={{ fontSize: theme.fontSize.lg, color: color, fontFamily: theme.font.ui, fontWeight: 700 }}>{value}</div>
+      <div style={{ fontSize: theme.fontSize.lg, color: color, fontFamily: theme.font.mono, fontWeight: 700 }}>{value}</div>
       <div style={{ fontSize: theme.fontSize.xs, color: theme.text.muted, marginTop: 4 }}>{label}</div>
       {hovered && tooltip && (
         <div style={{
@@ -113,9 +114,9 @@ export default function StatsView({ events, totalTime, metadata, turns, autonomy
   }
 
   return (
-    <div style={{ display: "flex", gap: 24, height: "100%", padding: "8px 0", overflow: "hidden" }}>
-      <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 16, overflowY: "auto", overflowX: "hidden" }}>
-        <div style={{ fontSize: theme.fontSize.xs, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 2 }}>
+    <ResizablePanel initialSplit={0.72} minPx={200} direction="horizontal">
+      <div style={{ height: "100%", display: "flex", flexDirection: "column", gap: theme.space.xl, overflowY: "auto", overflowX: "hidden", padding: theme.space.md + "px 0" }}>
+        <div style={{ fontSize: theme.fontSize.xs, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 1 }}>
           Session Overview
         </div>
 
@@ -128,7 +129,7 @@ export default function StatsView({ events, totalTime, metadata, turns, autonomy
                 padding: "14px 16px",
                 border: "1px solid " + theme.border.default,
               }}>
-                <div style={{ fontSize: theme.fontSize.xxl, fontWeight: 700, color: card.color, fontFamily: theme.font.ui }}>
+                <div style={{ fontSize: theme.fontSize.xxl, fontWeight: 700, color: card.color, fontFamily: theme.font.mono }}>
                   {card.value}
                 </div>
                 <div style={{ fontSize: theme.fontSize.xs, color: theme.text.muted, marginTop: 4 }}>{card.label}</div>
@@ -146,7 +147,7 @@ export default function StatsView({ events, totalTime, metadata, turns, autonomy
           }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 12 }}>
               <div>
-                <div style={{ fontSize: theme.fontSize.xs, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 2 }}>
+                <div style={{ fontSize: theme.fontSize.xs, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 1 }}>
                   Autonomy Metrics
                 </div>
                 <div style={{ fontSize: theme.fontSize.md, color: theme.text.secondary, marginTop: 6 }}>
@@ -195,7 +196,7 @@ export default function StatsView({ events, totalTime, metadata, turns, autonomy
             alignItems: "center",
           }}>
             <div>
-              <div style={{ fontSize: theme.fontSize.xs, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 2, marginBottom: 4 }}>
+              <div style={{ fontSize: theme.fontSize.xs, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>
                 Model
               </div>
               <div style={{ fontSize: theme.fontSize.lg, color: theme.track.context, fontFamily: theme.font.mono }}>
@@ -204,7 +205,7 @@ export default function StatsView({ events, totalTime, metadata, turns, autonomy
             </div>
             {metadata.tokenUsage && (metadata.tokenUsage.inputTokens + metadata.tokenUsage.outputTokens) > 0 && (
               <div style={{ borderLeft: "1px solid " + theme.border.default, paddingLeft: 20 }}>
-                <div style={{ fontSize: theme.fontSize.xs, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 2, marginBottom: 4 }}>
+                <div style={{ fontSize: theme.fontSize.xs, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>
                   Tokens
                 </div>
                 <div style={{ fontSize: theme.fontSize.base, color: theme.text.secondary, fontFamily: theme.font.mono }}>
@@ -222,7 +223,7 @@ export default function StatsView({ events, totalTime, metadata, turns, autonomy
             )}
             {metadata.tokenUsage && (metadata.tokenUsage.inputTokens + metadata.tokenUsage.outputTokens) > 0 && (
               <div style={{ borderLeft: "1px solid " + theme.border.default, paddingLeft: 20 }}>
-                <div style={{ fontSize: theme.fontSize.xs, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 2, marginBottom: 4 }}>
+                <div style={{ fontSize: theme.fontSize.xs, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>
                   Est. Cost
                 </div>
                 <div style={{ fontSize: theme.fontSize.lg, color: theme.semantic.success, fontFamily: theme.font.mono, fontWeight: 600 }}>
@@ -235,7 +236,7 @@ export default function StatsView({ events, totalTime, metadata, turns, autonomy
             )}
             {Object.keys(metadata.models).length > 1 && (
               <div style={{ borderLeft: "1px solid " + theme.border.default, paddingLeft: 20 }}>
-                <div style={{ fontSize: theme.fontSize.xs, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 2, marginBottom: 4 }}>
+                <div style={{ fontSize: theme.fontSize.xs, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>
                   All Models
                 </div>
                 <div style={{ fontSize: theme.fontSize.sm, color: theme.text.muted }}>
@@ -249,7 +250,7 @@ export default function StatsView({ events, totalTime, metadata, turns, autonomy
         )}
 
         <div style={{ marginTop: 8 }}>
-          <div style={{ fontSize: theme.fontSize.xs, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 2, marginBottom: 12 }}>
+          <div style={{ fontSize: theme.fontSize.xs, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 1, marginBottom: 12 }}>
             Event Distribution
           </div>
           {Object.entries(TRACK_TYPES).map(function (entry) {
@@ -282,7 +283,7 @@ export default function StatsView({ events, totalTime, metadata, turns, autonomy
         {turns && turns.length > 0 && (
           <div>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-              <div style={{ fontSize: theme.fontSize.xs, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 2 }}>
+              <div style={{ fontSize: theme.fontSize.xs, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 1 }}>
                 Turns ({turns.length})
               </div>
               {turns.length > TURNS_PREVIEW && (
@@ -340,12 +341,12 @@ export default function StatsView({ events, totalTime, metadata, turns, autonomy
         )}
       </div>
 
-      <div style={{ width: 240, flexShrink: 0, borderLeft: "1px solid " + theme.border.default, paddingLeft: 20, overflowY: "auto" }}>
-        <div style={{ fontSize: theme.fontSize.xs, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 2, marginBottom: 12 }}>
-          Tool Usage Ranking
+      <div style={{ height: "100%", overflowY: "auto", padding: theme.space.lg }}>
+        <div style={{ fontSize: theme.fontSize.xs, color: theme.text.dim, textTransform: "uppercase", letterSpacing: 1, marginBottom: theme.space.md }}>
+          Tools Used
         </div>
         {sortedTools.length === 0 && (
-          <div style={{ fontSize: theme.fontSize.md, color: theme.text.dim, fontStyle: "italic" }}>No tool calls detected</div>
+          <div style={{ fontSize: theme.fontSize.sm, color: theme.text.dim, fontStyle: "italic" }}>No tool calls detected</div>
         )}
         {sortedTools.map(function (pair, i) {
           var name = pair[0];
@@ -353,12 +354,12 @@ export default function StatsView({ events, totalTime, metadata, turns, autonomy
           var maxCount = sortedTools[0][1];
           var pct = (count / maxCount) * 100;
           return (
-            <div key={name} style={{ marginBottom: 8 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                <span style={{ fontSize: theme.fontSize.base, color: theme.track.tool_call, fontFamily: theme.font.mono }}>
+            <div key={name} style={{ marginBottom: theme.space.md }}>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: theme.space.sm }}>
+                <span style={{ fontSize: theme.fontSize.sm, color: theme.track.tool_call, fontFamily: theme.font.mono }}>
                   {i + 1}. {name}
                 </span>
-                <span style={{ fontSize: theme.fontSize.base, color: theme.text.muted }}>{count}x</span>
+                <span style={{ fontSize: theme.fontSize.sm, color: theme.text.muted }}>{count}x</span>
               </div>
               <div style={{ height: 4, background: theme.bg.base, borderRadius: theme.radius.sm }}>
                 <div style={{
@@ -372,6 +373,6 @@ export default function StatsView({ events, totalTime, metadata, turns, autonomy
           );
         })}
       </div>
-    </div>
+    </ResizablePanel>
   );
 }

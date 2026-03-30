@@ -338,9 +338,9 @@ function GraphInspector({ selectedNode }) {
 
   return (
     <div style={{
-      padding: 16,
+      padding: theme.space.lg,
       fontFamily: theme.font.mono,
-      fontSize: theme.fontSize.base,
+      fontSize: theme.fontSize.sm,
       color: theme.text.secondary,
       overflowY: "auto",
       height: "100%",
@@ -349,18 +349,18 @@ function GraphInspector({ selectedNode }) {
         fontSize: theme.fontSize.md,
         color: color,
         fontWeight: 600,
-        marginBottom: 12,
+        marginBottom: theme.space.lg,
         display: "flex",
         alignItems: "center",
-        gap: 6,
+        gap: theme.space.sm,
       }}>
         <Icon name={isTurn ? "message-circle" : "tool_call"} size={14} style={{ color: color }} />
         {isTurn ? "Turn " + selectedNode.turnIndex : selectedNode.label}
       </div>
 
       {isTurn && selectedNode.snippet && (
-        <div style={{ marginBottom: 12 }}>
-          <div style={{ color: theme.text.dim, fontSize: theme.fontSize.sm, marginBottom: 4 }}>User message</div>
+        <div style={{ marginBottom: theme.space.lg }}>
+          <div style={{ color: theme.text.dim, fontSize: theme.fontSize.xs, textTransform: "uppercase", letterSpacing: 1, marginBottom: theme.space.sm }}>User message</div>
           <div style={{
             background: theme.bg.surface,
             borderRadius: theme.radius.md,
@@ -377,7 +377,7 @@ function GraphInspector({ selectedNode }) {
       )}
 
       {isTurn && (
-        <div style={{ display: "flex", gap: 16, marginBottom: 12 }}>
+        <div style={{ display: "flex", gap: theme.space.xl, marginBottom: theme.space.lg }}>
           <div>
             <div style={{ color: theme.text.dim, fontSize: theme.fontSize.xs }}>Tools</div>
             <div style={{ color: theme.text.primary, fontSize: theme.fontSize.md }}>{selectedNode.toolCount || 0}</div>
@@ -399,26 +399,26 @@ function GraphInspector({ selectedNode }) {
 
       {!isTurn && event && (
         <div>
-          <div style={{ marginBottom: 12 }}>
-            <div style={{ color: theme.text.dim, fontSize: theme.fontSize.xs, marginBottom: 4 }}>Tool</div>
+          <div style={{ marginBottom: theme.space.lg }}>
+            <div style={{ color: theme.text.dim, fontSize: theme.fontSize.xs, textTransform: "uppercase", letterSpacing: 1, marginBottom: theme.space.sm }}>Tool</div>
             <div style={{ color: theme.text.primary }}>{event.toolName || "unknown"}</div>
           </div>
           {event.duration > 0 && (
-            <div style={{ marginBottom: 12 }}>
-              <div style={{ color: theme.text.dim, fontSize: theme.fontSize.xs, marginBottom: 4 }}>Duration</div>
+            <div style={{ marginBottom: theme.space.lg }}>
+              <div style={{ color: theme.text.dim, fontSize: theme.fontSize.xs, textTransform: "uppercase", letterSpacing: 1, marginBottom: theme.space.sm }}>Duration</div>
               <div style={{ color: theme.text.primary }}>{event.duration.toFixed(1)}s</div>
             </div>
           )}
           {event.isError && (
-            <div style={{ marginBottom: 12 }}>
+            <div style={{ marginBottom: theme.space.lg }}>
               <div style={{ color: theme.semantic.error, fontSize: theme.fontSize.sm }}>
                 <Icon name="alert-circle" size={12} /> Error
               </div>
             </div>
           )}
           {event.toolInput && (
-            <div style={{ marginBottom: 12 }}>
-              <div style={{ color: theme.text.dim, fontSize: theme.fontSize.xs, marginBottom: 4 }}>Input</div>
+            <div style={{ marginBottom: theme.space.lg }}>
+              <div style={{ color: theme.text.dim, fontSize: theme.fontSize.xs, textTransform: "uppercase", letterSpacing: 1, marginBottom: theme.space.sm }}>Input</div>
               <pre style={{
                 background: theme.bg.surface,
                 borderRadius: theme.radius.md,
@@ -439,8 +439,8 @@ function GraphInspector({ selectedNode }) {
             </div>
           )}
           {event.text && (
-            <div style={{ marginBottom: 12 }}>
-              <div style={{ color: theme.text.dim, fontSize: theme.fontSize.xs, marginBottom: 4 }}>Output</div>
+            <div style={{ marginBottom: theme.space.lg }}>
+              <div style={{ color: theme.text.dim, fontSize: theme.fontSize.xs, textTransform: "uppercase", letterSpacing: 1, marginBottom: theme.space.sm }}>Output</div>
               <pre style={{
                 background: theme.bg.surface,
                 borderRadius: theme.radius.md,

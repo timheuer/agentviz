@@ -27,7 +27,7 @@ export default function ToolbarButton({
         color: theme.text.muted,
         padding: "2px 8px",
         fontSize: theme.fontSize.sm,
-        fontFamily: theme.font.ui,
+        fontFamily: theme.font.mono,
         display: "flex",
         alignItems: "center",
         gap: 4,

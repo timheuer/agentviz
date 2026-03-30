@@ -227,7 +227,7 @@ Interactive directed graph of session turns with expandable tool-call structure.
 
 ### Stats View
 
-Aggregate metrics, event distribution bars, tool usage ranking, and a per-turn summary. Includes token counts and estimated USD cost per turn for Claude models.
+Aggregate metrics, event distribution bars, tools used ranking, and a per-turn summary. Includes token counts and estimated USD cost per turn for Claude models.
 
 <div align="center">
 <img src="docs/screenshots/stats-view.svg" alt="Stats View" width="800" />

@@ -22,6 +22,7 @@
  */
 
 import type { NormalizedEvent, ParsedSession, SessionMetadata, SessionTurn } from "./sessionTypes";
+import type { TrackType } from "./theme";
 
 const MAX_TEXT_LENGTH = 4000;
 
@@ -85,7 +86,7 @@ function buildToolPairs(records: RawRecord[]): ToolPairs {
 function makeEvent(
   t: number,
   agent: string,
-  track: string,
+  track: TrackType,
   text: string,
   duration: number,
   intensity: number,

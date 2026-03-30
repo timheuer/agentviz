@@ -1,3 +1,5 @@
+import type { TrackType } from "./theme";
+
 export interface TokenUsage {
   inputTokens?: number;
   outputTokens?: number;
@@ -15,7 +17,7 @@ export interface ParseIssues {
 export interface NormalizedEvent {
   t: number;
   agent: string;
-  track: string;
+  track: TrackType;
   text: string;
   duration: number;
   intensity: number;

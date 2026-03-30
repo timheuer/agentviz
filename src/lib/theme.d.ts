@@ -36,32 +36,81 @@ export interface Theme {
   };
   accent: {
     primary: string;
-    subtle: string;
+    hover: string;
+    muted: string;
   };
   semantic: {
     success: string;
     warning: string;
     error: string;
-    errorSubtle: string;
+    errorBg: string;
+    errorBorder: string;
+    errorText: string;
     info: string;
-    live: string;
   };
   track: Record<TrackType, string>;
-  agent: Record<string, string>;
+  agent: {
+    user: string;
+    assistant: string;
+    system: string;
+  };
   font: {
     mono: string;
     ui: string;
   };
-  fontSize: Record<string, string>;
-  space: Record<string, number>;
-  radius: Record<string, number>;
-  shadow: Record<string, string>;
+  fontSize: {
+    xs: number;
+    sm: number;
+    base: number;
+    md: number;
+    lg: number;
+    xl: number;
+    xxl: number;
+    hero: number;
+  };
+  space: {
+    xs: number;
+    sm: number;
+    md: number;
+    lg: number;
+    xl: number;
+    xxl: number;
+    xxxl: number;
+    huge: number;
+    giant: number;
+  };
+  radius: {
+    sm: number;
+    md: number;
+    lg: number;
+    xl: number;
+    xxl: number;
+    full: number;
+  };
+  shadow: {
+    sm: string;
+    md: string;
+    lg: string;
+    inset: string;
+  };
   focus: { ring: string };
-  transition: Record<string, string>;
-  z: Record<string, number>;
+  transition: {
+    fast: string;
+    base: string;
+    smooth: string;
+    slow: string;
+  };
+  z: {
+    base: number;
+    active: number;
+    playhead: number;
+    tooltip: number;
+    overlay: number;
+    modal: number;
+  };
 }
 
 export declare const theme: Theme;
 export declare const TRACK_TYPES: Record<TrackType, TrackTypeInfo>;
-export declare const AGENT_COLORS: Record<string, string>;
+export declare const AGENT_COLORS: Theme["agent"];
 export declare function alpha(hex: string, opacity: number): string;

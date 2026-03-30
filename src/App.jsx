@@ -126,6 +126,7 @@ export default function App() {
   var qaFlag = useFeatureFlag("qa", false);
   var searchInputRef = useRef(null);
   var filtersRef = useRef(null);
+  var sessionLoadCount = useRef(0);
 
   var discovered = useDiscoveredSessions();
 
@@ -220,6 +221,7 @@ export default function App() {
   }, [isValidView]);
 
   var handleFile = useCallback(function (text, name) {
+    sessionLoadCount.current += 1;
     setShowPalette(false);
     setShowFilters(false);
     session.handleFile(text, name);
@@ -231,7 +233,6 @@ export default function App() {
     function afterLoad(rawText) {
       setView("stats");
       handleFile(rawText, entry.file);
-      // Persist discoveredPath onto library entry so future loads can refetch from disk
       if (entry.discoveredPath) {
         setLibraryEntries(function (prev) {
           return prev.map(function (e) {
@@ -244,23 +245,21 @@ export default function App() {
       }
     }
 
-    // Discovered-only session (not yet in library): fetch content from server
     if (entry.isDiscovered && entry.discoveredPath) {
       discovered.fetchSessionContent(entry.discoveredPath).then(afterLoad).catch(function () {});
       return;
     }
 
-    // Library session: try localStorage cache first, fall back to file on disk
     var rawText = loadStoredSessionContent(entry.id);
     if (rawText) { afterLoad(rawText); return; }
     if (entry.discoveredPath) {
       discovered.fetchSessionContent(entry.discoveredPath).then(afterLoad).catch(function () {});
       return;
     }
-    // No content available
   }, [handleFile, setView, setLibraryEntries, discovered.fetchSessionContent]);
 
   var loadSample = useCallback(function () {
+    sessionLoadCount.current += 1;
     setShowPalette(false);
     setShowFilters(false);
     session.loadSample();
@@ -359,7 +358,7 @@ export default function App() {
 
   // Active session view: wrap in PlaybackProvider so children can use usePlaybackContext()
   return (
-    <PlaybackProvider key={session.file} session={session}>
+    <PlaybackProvider key={sessionLoadCount.current} session={session}>
       <AppSessionView
         session={session}
         activeView={activeView}

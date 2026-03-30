@@ -425,7 +425,7 @@ export default function App() {
   useKeyboardShortcuts({
     hasSession: Boolean(session.events),
     showHero: session.showHero,
-    showPalette: showPalette,
+    showPalette: showPalette || showQA,
     time: playback.time,
     onTogglePalette: function () { setShowPalette(function (prev) { return !prev; }); },
     onDismissHero: session.dismissHero,
